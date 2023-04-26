@@ -9,7 +9,7 @@ class MovieViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bi
     fun bind(movie: Movie) {
         binding.title.text = movie.title
         binding.description.text = movie.description
-        binding.cover.setImageResource(movie.movId)
+        binding.coverImage.setImageResource(movie.movId)
         binding.rating.text = movie.rating.toString()
     }
 }

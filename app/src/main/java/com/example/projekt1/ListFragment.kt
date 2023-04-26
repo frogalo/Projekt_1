@@ -17,7 +17,7 @@ class ListFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
 
         return FragmentListBinding.inflate(inflater, container, false).also {
             binding = it
@@ -33,6 +33,10 @@ class ListFragment : Fragment() {
         binding.list.let {
             it.adapter = adapter
             it.layoutManager = LinearLayoutManager(requireContext())
+        }
+
+        binding.btAdd.setOnClickListener {
+            (activity as? Navigable)?.navigate(Navigable.Destination.Add)
         }
 
     }
