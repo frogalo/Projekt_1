@@ -43,6 +43,7 @@ class ListFragment : Fragment() {
 
     }
 
+
     override fun onStart() {
         super.onStart()
         adapter?.replace(DataSource.movies)

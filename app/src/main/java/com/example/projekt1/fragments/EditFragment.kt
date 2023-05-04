@@ -1,16 +1,21 @@
 package com.example.projekt1.fragments
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.ContactsContract.CommonDataKinds.Note
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.projekt1.model.DataSource
-import com.example.projekt1.model.Movie
+import androidx.recyclerview.widget.RecyclerView
+import com.example.projekt1.MainActivity
 import com.example.projekt1.MovieImagesAdapter
 import com.example.projekt1.Navigable
 import com.example.projekt1.databinding.FragmentEditBinding
+import com.example.projekt1.model.DataSource
+import com.example.projekt1.model.Movie
+
 
 private const val ARG_EDIT_ID = "edit_id"
 
@@ -54,6 +59,5 @@ class EditFragment : Fragment() {
             (activity as? Navigable)?.navigate(Navigable.Destination.List)
         }
     }
-
 
 }
