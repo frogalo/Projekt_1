@@ -24,10 +24,9 @@ class MovieImagesAdapter : RecyclerView.Adapter<MovieImageViewHolder>() {
         R.drawable.turning_red
     )
     private var selectedPosition: Int = 0
+    val selectedIdMov: Int
         get() = coverImages[selectedPosition]
 
-    var selectedIdMov: Int = coverImages[0]
-        private set
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieImageViewHolder {
         val binding = MovieImageBinding.inflate(
@@ -45,10 +44,8 @@ class MovieImagesAdapter : RecyclerView.Adapter<MovieImageViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: MovieImageViewHolder, position: Int) {
-        holder.bind(coverImages[position], coverImages[position] == selectedPosition)
+        holder.bind(coverImages[position], position == selectedPosition)
     }
 
     override fun getItemCount(): Int = coverImages.size
-
-
 }

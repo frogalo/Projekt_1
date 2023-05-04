@@ -1,4 +1,6 @@
-package com.example.projekt1
+package com.example.projekt1.model
+
+import com.example.projekt1.R
 
 object DataSource {
     val movies = mutableListOf<Movie>(

@@ -2,6 +2,8 @@ package com.example.projekt1
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.projekt1.fragments.EditFragment
+import com.example.projekt1.fragments.ListFragment
 
 class MainActivity : AppCompatActivity(), Navigable {
     private lateinit var listFragment: ListFragment
@@ -36,6 +38,4 @@ class MainActivity : AppCompatActivity(), Navigable {
             }
         }.commit()
     }
-
-
 }

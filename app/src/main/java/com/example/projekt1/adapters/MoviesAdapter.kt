@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.projekt1.databinding.ListItemBinding
+import com.example.projekt1.model.Movie
 
 class MovieViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(movie: Movie) {

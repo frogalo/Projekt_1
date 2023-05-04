@@ -4,10 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListFragment">
-
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".fragments.ListFragment">
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -44,8 +41,10 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="16dp"
-        android:backgroundTintMode="add"
+        android:background="@drawable/add_button_background"
         android:text="Add"
+        android:textColor="@color/white"
+        android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
