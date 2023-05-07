@@ -42,23 +42,26 @@ class EditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = MovieImagesAdapter()
-        val id = requireArguments().getInt(ARG_EDIT_IT, -1)
-        if (id != -1) {
-            thread {
-                movie = db.movies.getMovie(id)
-                requireActivity().runOnUiThread {
-                    binding.title.setText(movie?.title ?: "")
-                    binding.description.setText(movie?.description ?: "")
-                    binding.rating.setText(movie?.rating.toString() ?: "")
+        if (arguments != null && requireArguments().containsKey(ARG_EDIT_IT)) {
+            val id = requireArguments().getInt(ARG_EDIT_IT, -1)
+
+            if (id != -1) {
+                thread {
+                    movie = db.movies.getMovie(id)
+                    requireActivity().runOnUiThread {
+                        binding.title.setText(movie?.title ?: "")
+                        binding.description.setText(movie?.description ?: "")
+                        binding.rating.setText(movie?.rating.toString() ?: "")
 
 
-                    adapter.setSelection(movie?.cover?.let {
-                        resources.getIdentifier(
-                            it,
-                            "drawable",
-                            requireContext().packageName
-                        )
-                    })
+                        adapter.setSelection(movie?.cover?.let {
+                            resources.getIdentifier(
+                                it,
+                                "drawable",
+                                requireContext().packageName
+                            )
+                        })
+                    }
                 }
             }
         }
