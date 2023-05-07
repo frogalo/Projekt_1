@@ -1,5 +1,6 @@
 package com.example.projekt1.fragments
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,6 +29,7 @@ class ListFragment : Fragment() {
         }.root
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = MoviesAdapter().apply {
@@ -47,6 +49,17 @@ class ListFragment : Fragment() {
             (activity as? Navigable)?.navigate(Navigable.Destination.Add)
             adapter?.sort()
         }
+
+        thread {
+            val totalMovies = MovieDatabase.open(requireContext()).movies.count()
+            val averageRating = MovieDatabase.open(requireContext()).movies.averageRating()
+            requireActivity().runOnUiThread {
+                binding.totalMovies.text = "$totalMovies"
+                binding.averageRating.text = "%.1f".format(averageRating)
+            }
+        }
+
+
     }
 
     fun loadData() {

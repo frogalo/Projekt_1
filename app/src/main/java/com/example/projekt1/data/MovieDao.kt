@@ -28,4 +28,10 @@ interface MovieDao {
 
     @Delete
     fun removeMovie(movieToDelete: MovieEntity)
+
+    @Query("SELECT COUNT(*) FROM movie")
+    fun count(): Int
+
+    @Query("SELECT AVG(rating) FROM movie")
+    fun averageRating(): Double?
 }
