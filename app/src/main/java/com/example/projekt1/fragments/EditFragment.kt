@@ -11,6 +11,8 @@ import com.example.projekt1.Navigable
 import com.example.projekt1.databinding.FragmentEditBinding
 import com.example.projekt1.data.DataSource
 import com.example.projekt1.data.Movie
+import com.example.projekt1.data.MovieDatabase
+import com.example.projekt1.data.model.MovieEntity
 import kotlin.concurrent.thread
 
 
@@ -38,14 +40,15 @@ class EditFragment : Fragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            val newMovie = Movie(
-                binding.title.text.toString(),
-                binding.description.text.toString(),
-                adapter.selectedIdMov,
-                binding.rating.text.toString().toDoubleOrNull() ?: 0.0
+            val newMovie = MovieEntity(
+                title = binding.title.text.toString(),
+                description = binding.description.text.toString(),
+                cover = resources.getResourceEntryName(adapter.selectedIdMov),
+                rating = binding.rating.text.toString().toDoubleOrNull() ?: 0.0
             )
+
             thread {
-                DataSource.movies.add(newMovie)
+                MovieDatabase.open(requireContext()).movies.addMovie(newMovie)
                 (activity as? Navigable)?.navigate(Navigable.Destination.List)
             }
         }

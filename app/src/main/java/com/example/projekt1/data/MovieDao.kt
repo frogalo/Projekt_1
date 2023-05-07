@@ -12,12 +12,12 @@ interface MovieDao {
     @Query("SELECT * FROM movie;")
     fun getAll(): List<MovieEntity>
 
-    @Query("SELECT * FROM movie ORDER BY name ASC;")
-    fun getAllSortedByName(): List<MovieEntity>
+    @Query("SELECT * FROM movie ORDER BY rating ASC;")
+    fun getAllSortedByRating(): List<MovieEntity>
 
     @Insert
-    fun addDish(newDish: MovieEntity)
+    fun addMovie(newMovie: MovieEntity)
 
     @Update
-    fun updateDish(newDish: MovieEntity)
+    fun updateMovie(newMovie: MovieEntity)
 }

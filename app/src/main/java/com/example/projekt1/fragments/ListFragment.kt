@@ -40,12 +40,12 @@ class ListFragment : Fragment() {
 
         binding.btAdd.setOnClickListener {
             (activity as? Navigable)?.navigate(Navigable.Destination.Add)
+            adapter?.sort()
         }
-
     }
 
     fun loadData() = thread {
-        val dishes = MovieDatabase.open(requireContext()).movies.getAll().map { entity ->
+        val movies = MovieDatabase.open(requireContext()).movies.getAllSortedByRating().map { entity ->
             Movie(
                 entity.title,
                 entity.description,
@@ -54,9 +54,9 @@ class ListFragment : Fragment() {
             )
         }
 
-//        requireActivity().runOnUiThread {
-        adapter?.replace(dishes)
-//        }
+        requireActivity().runOnUiThread {
+        adapter?.replace(movies)
+        }
     }
 
 
