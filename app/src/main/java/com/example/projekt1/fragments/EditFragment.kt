@@ -1,23 +1,17 @@
 package com.example.projekt1.fragments
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Note
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.projekt1.MainActivity
 import com.example.projekt1.MovieImagesAdapter
 import com.example.projekt1.Navigable
 import com.example.projekt1.databinding.FragmentEditBinding
-import com.example.projekt1.model.DataSource
-import com.example.projekt1.model.Movie
-
-
-private const val ARG_EDIT_ID = "edit_id"
+import com.example.projekt1.data.DataSource
+import com.example.projekt1.data.Movie
+import kotlin.concurrent.thread
 
 
 class EditFragment : Fragment() {
@@ -25,11 +19,6 @@ class EditFragment : Fragment() {
     private lateinit var binding: FragmentEditBinding
 
     private lateinit var adapter: MovieImagesAdapter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val id = requireArguments().getInt(ARG_EDIT_ID, -1)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,9 +44,12 @@ class EditFragment : Fragment() {
                 adapter.selectedIdMov,
                 binding.rating.text.toString().toDoubleOrNull() ?: 0.0
             )
-            DataSource.movies.add(newMovie)
-            (activity as? Navigable)?.navigate(Navigable.Destination.List)
+            thread {
+                DataSource.movies.add(newMovie)
+                (activity as? Navigable)?.navigate(Navigable.Destination.List)
+            }
         }
     }
+
 
 }

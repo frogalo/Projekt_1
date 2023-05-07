@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.projekt1.model.DataSource
-import com.example.projekt1.MoviesAdapter
+import com.example.projekt1.adapters.MoviesAdapter
 import com.example.projekt1.Navigable
+import com.example.projekt1.data.Movie
+import com.example.projekt1.data.MovieDatabase
 import com.example.projekt1.databinding.FragmentListBinding
+import kotlin.concurrent.thread
 
 
 class ListFragment : Fragment() {
@@ -28,9 +30,8 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MoviesAdapter().apply {
-            replace(DataSource.movies)
-        }
+        adapter = MoviesAdapter()
+        loadData()
 
         binding.list.let {
             it.adapter = adapter
@@ -43,10 +44,25 @@ class ListFragment : Fragment() {
 
     }
 
+    fun loadData() = thread {
+        val dishes = MovieDatabase.open(requireContext()).movies.getAll().map { entity ->
+            Movie(
+                entity.title,
+                entity.description,
+                resources.getIdentifier(entity.cover, "drawable", requireContext().packageName),
+                entity.rating
+            )
+        }
+
+//        requireActivity().runOnUiThread {
+        adapter?.replace(dishes)
+//        }
+    }
+
 
     override fun onStart() {
         super.onStart()
-        adapter?.replace(DataSource.movies)
+        loadData()
     }
 
 }

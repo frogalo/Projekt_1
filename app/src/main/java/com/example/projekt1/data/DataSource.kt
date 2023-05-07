@@ -1,4 +1,4 @@
-package com.example.projekt1.model
+package com.example.projekt1.data
 
 import com.example.projekt1.R
 
