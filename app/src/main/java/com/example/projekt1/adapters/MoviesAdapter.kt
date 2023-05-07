@@ -23,13 +23,21 @@ class MovieViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bi
 class MoviesAdapter : RecyclerView.Adapter<MovieViewHolder>() {
     private val data = mutableListOf<Movie>()
     private val handler: Handler = HandlerCompat.createAsync(Looper.getMainLooper())
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+    var onItemClick: (Int) -> Unit = {}
+
+    override
+
+    fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ListItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return MovieViewHolder(binding)
+        return MovieViewHolder(binding).also { vh ->
+            binding.btnEdit.setOnClickListener {
+                onItemClick(data[vh.layoutPosition].id)
+            }
+        }
     }
 
     override fun getItemCount(): Int = data.size

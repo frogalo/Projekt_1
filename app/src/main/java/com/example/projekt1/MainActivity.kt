@@ -2,6 +2,7 @@ package com.example.projekt1
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.projekt1.fragments.ARG_EDIT_IT
 import com.example.projekt1.fragments.EditFragment
 import com.example.projekt1.fragments.ListFragment
 
@@ -17,7 +18,7 @@ class MainActivity : AppCompatActivity(), Navigable {
             .commit()
     }
 
-    override fun navigate(to: Navigable.Destination) {
+    override fun navigate(to: Navigable.Destination, id: Int?) {
         supportFragmentManager.beginTransaction().apply {
             when (to) {
                 Navigable.Destination.List -> replace(
@@ -25,10 +26,23 @@ class MainActivity : AppCompatActivity(), Navigable {
                     listFragment,
                     listFragment.javaClass.name
                 )
+
                 Navigable.Destination.Add -> {
                     replace(
                         R.id.container,
                         EditFragment(),
+                        EditFragment::class.java.name
+                    )
+                    addToBackStack(
+                        EditFragment::class.java.name
+                    )
+                }
+
+                Navigable.Destination.Edit -> {
+                    replace(
+                        R.id.container,
+                        EditFragment::class.java,
+                        Bundle().apply { putInt(ARG_EDIT_IT, id ?: -1) },
                         EditFragment::class.java.name
                     )
                     addToBackStack(

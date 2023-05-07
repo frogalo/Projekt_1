@@ -16,12 +16,19 @@ import com.example.projekt1.data.MovieDatabase
 import com.example.projekt1.data.model.MovieEntity
 import kotlin.concurrent.thread
 
+const val ARG_EDIT_IT = "edit_id"
 
 class EditFragment : Fragment() {
 
     private lateinit var binding: FragmentEditBinding
-
     private lateinit var adapter: MovieImagesAdapter
+    private lateinit var db: MovieDatabase
+    private var movie: MovieEntity? = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        db = MovieDatabase.open(requireContext())
+
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +42,29 @@ class EditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         adapter = MovieImagesAdapter()
+        val id = requireArguments().getInt(ARG_EDIT_IT, -1)
+        if (id != -1) {
+            thread {
+                movie = db.movies.getMovie(id)
+                requireActivity().runOnUiThread {
+                    binding.title.setText(movie?.title ?: "")
+                    binding.description.setText(movie?.description ?: "")
+                    binding.rating.setText(movie?.rating.toString() ?: "")
+
+
+                    adapter.setSelection(movie?.cover?.let {
+                        resources.getIdentifier(
+                            it,
+                            "drawable",
+                            requireContext().packageName
+                        )
+                    })
+                }
+            }
+        }
+
+
+
         binding.images.apply {
             adapter = this@EditFragment.adapter
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -45,13 +75,19 @@ class EditFragment : Fragment() {
             val title = binding.title.text.toString()
             val description = binding.description.text.toString()
             val rating = binding.rating.text.toString().toDoubleOrNull() ?: 0.0
-
-            val newMovie = MovieEntity(
+            val cover = resources.getResourceEntryName(adapter.selectedIdMov)
+            val movie = movie?.copy(
                 title = title,
                 description = description,
-                cover = resources.getResourceEntryName(adapter.selectedIdMov),
+                cover = cover,
+                rating = rating
+            ) ?: MovieEntity(
+                title = title,
+                description = description,
+                cover = cover,
                 rating = rating
             )
+            this.movie = movie
             if (rating > 10.0) {
                 Toast.makeText(
                     requireContext(),
@@ -60,7 +96,7 @@ class EditFragment : Fragment() {
                 ).show()
             } else if (title.isNotEmpty() && description.isNotEmpty()) {
                 thread {
-                    MovieDatabase.open(requireContext()).movies.addMovie(newMovie)
+                    db.movies.addMovie(movie)
                     (activity as? Navigable)?.navigate(Navigable.Destination.List)
                 }
             } else {

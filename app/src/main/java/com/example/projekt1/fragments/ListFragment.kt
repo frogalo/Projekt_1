@@ -30,13 +30,18 @@ class ListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MoviesAdapter()
+        adapter = MoviesAdapter().apply {
+            onItemClick = {
+                (activity as? Navigable)?.navigate(Navigable.Destination.Edit, it)
+            }
+        }
         loadData()
 
         binding.list.let {
             it.adapter = adapter
             it.layoutManager = LinearLayoutManager(requireContext())
         }
+
 
         binding.btAdd.setOnClickListener {
             (activity as? Navigable)?.navigate(Navigable.Destination.Add)
@@ -47,22 +52,25 @@ class ListFragment : Fragment() {
     fun loadData() {
         thread {
             val movies =
-                MovieDatabase.open(requireContext()).movies.getAllSortedByRating().map { entity ->
-                    Movie(
-                        entity.title,
-                        entity.description,
-                        resources.getIdentifier(
-                            entity.cover,
-                            "drawable",
-                            requireContext().packageName
-                        ),
-                        entity.rating
-                    )
-                }
+                MovieDatabase.open(requireContext()).movies.getAllSortedByRating()
+                    .map { entity ->
+                        Movie(
+                            entity.movId,
+                            entity.title,
+                            entity.description,
+                            resources.getIdentifier(
+                                entity.cover,
+                                "drawable",
+                                requireContext().packageName
+                            ),
+                            entity.rating
+                        )
+                    }
 
             requireActivity().runOnUiThread {
                 adapter?.replace(movies)
-                binding.list.adapter = adapter  //this will add loading after the app is closed and opened again
+                binding.list.adapter =
+                    adapter  //this will add loading after the app is closed and opened again
             }
         }
     }

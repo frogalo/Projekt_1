@@ -36,11 +36,15 @@ class MovieImagesAdapter : RecyclerView.Adapter<MovieImageViewHolder>() {
         )
         return MovieImageViewHolder(binding).also { vh ->
             binding.root.setOnClickListener {
-                notifyItemChanged(selectedPosition)
-                selectedPosition = vh.layoutPosition
-                notifyItemChanged(selectedPosition)
+                setSelected(vh.layoutPosition)
             }
         }
+    }
+
+    private fun setSelected(layoutPosition: Int) {
+        notifyItemChanged(selectedPosition)
+        selectedPosition = layoutPosition
+        notifyItemChanged(selectedPosition)
     }
 
     override fun onBindViewHolder(holder: MovieImageViewHolder, position: Int) {
@@ -48,4 +52,13 @@ class MovieImagesAdapter : RecyclerView.Adapter<MovieImageViewHolder>() {
     }
 
     override fun getItemCount(): Int = coverImages.size
+    fun setSelection(cover: Int?) {
+        val index = coverImages.indexOfFirst { it == cover }
+        if (index == -1) {
+            return
+        } else {
+            setSelected(index)
+        }
+
+    }
 }
