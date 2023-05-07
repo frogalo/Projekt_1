@@ -44,21 +44,28 @@ class ListFragment : Fragment() {
         }
     }
 
-    fun loadData() = thread {
-        val movies = MovieDatabase.open(requireContext()).movies.getAllSortedByRating().map { entity ->
-            Movie(
-                entity.title,
-                entity.description,
-                resources.getIdentifier(entity.cover, "drawable", requireContext().packageName),
-                entity.rating
-            )
-        }
+    fun loadData() {
+        thread {
+            val movies =
+                MovieDatabase.open(requireContext()).movies.getAllSortedByRating().map { entity ->
+                    Movie(
+                        entity.title,
+                        entity.description,
+                        resources.getIdentifier(
+                            entity.cover,
+                            "drawable",
+                            requireContext().packageName
+                        ),
+                        entity.rating
+                    )
+                }
 
-        requireActivity().runOnUiThread {
-        adapter?.replace(movies)
+            requireActivity().runOnUiThread {
+                adapter?.replace(movies)
+                binding.list.adapter = adapter  //this will add loading after the app is closed and opened again
+            }
         }
     }
-
 
     override fun onStart() {
         super.onStart()

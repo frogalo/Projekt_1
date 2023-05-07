@@ -9,7 +9,7 @@ import com.example.projekt1.data.model.MovieEntity
 @Database(
     entities = [MovieEntity::class],
     version = 1,
-    exportSchema = true
+    exportSchema = false
 )
 abstract class MovieDatabase : RoomDatabase() {
     abstract val movies: MovieDao
