@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.projekt1.MovieImagesAdapter
@@ -40,19 +41,34 @@ class EditFragment : Fragment() {
         }
 
         binding.btnSave.setOnClickListener {
-            val newMovie = MovieEntity(
-                title = binding.title.text.toString(),
-                description = binding.description.text.toString(),
-                cover = resources.getResourceEntryName(adapter.selectedIdMov),
-                rating = binding.rating.text.toString().toDoubleOrNull() ?: 0.0
-            )
 
-            thread {
-                MovieDatabase.open(requireContext()).movies.addMovie(newMovie)
-                (activity as? Navigable)?.navigate(Navigable.Destination.List)
+            val title = binding.title.text.toString()
+            val description = binding.description.text.toString()
+            val rating = binding.rating.text.toString().toDoubleOrNull() ?: 0.0
+
+            val newMovie = MovieEntity(
+                title = title,
+                description = description,
+                cover = resources.getResourceEntryName(adapter.selectedIdMov),
+                rating = rating
+            )
+            if (rating > 10.0) {
+                Toast.makeText(
+                    requireContext(),
+                    "Rating cannot be higher than 10",
+                    Toast.LENGTH_SHORT
+                ).show()
+            } else if (title.isNotEmpty() && description.isNotEmpty()) {
+                thread {
+                    MovieDatabase.open(requireContext()).movies.addMovie(newMovie)
+                    (activity as? Navigable)?.navigate(Navigable.Destination.List)
+                }
+            } else {
+                Toast.makeText(requireContext(), "Please fill in all fields", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
+
+
     }
-
-
 }

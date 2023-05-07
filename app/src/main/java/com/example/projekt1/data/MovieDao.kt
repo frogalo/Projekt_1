@@ -18,7 +18,6 @@ interface MovieDao {
 
     @Insert
     fun addMovie(newMovie: MovieEntity)
-
     @Update
     fun updateMovie(newMovie: MovieEntity)
 
