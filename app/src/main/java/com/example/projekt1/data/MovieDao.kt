@@ -27,7 +27,7 @@ interface MovieDao {
     fun updateMovie(newMovie: MovieEntity)
 
     @Query("DELETE FROM movie WHERE movId = :id;")
-    fun removeMovie(id: Int): MovieEntity
+    fun removeMovie(id: Int)
 
     @Query("SELECT COUNT(*) FROM movie")
     fun count(): Int

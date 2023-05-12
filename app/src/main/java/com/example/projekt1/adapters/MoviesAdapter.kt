@@ -12,6 +12,7 @@ import com.example.projekt1.databinding.ListItemBinding
 import com.example.projekt1.data.Movie
 import com.example.projekt1.MovieCallback
 import com.example.projekt1.data.MovieDao
+import com.example.projekt1.data.MovieDatabase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
@@ -22,6 +23,8 @@ class MovieViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(bi
         binding.coverImage.setImageResource(movie.movId)
         binding.rating.text = movie.rating.toString()
     }
+    private val movieDao = MovieDatabase.open(binding.root.context).movies
+
 }
 
 class MoviesAdapter : RecyclerView.Adapter<MovieViewHolder>() {
@@ -36,12 +39,13 @@ class MoviesAdapter : RecyclerView.Adapter<MovieViewHolder>() {
             parent,
             false
         )
+        var movieDao = MovieDatabase.open(binding.root.context).movies // Initialize movieDao
         val viewHolder = MovieViewHolder(binding)
         binding.root.setOnLongClickListener { view ->
             var dialog: AlertDialog? = null
             handler.postDelayed({
                 // Show confirmation dialog
-                val message = "Do you want to remove this movie?"
+                val message = "Do you want to remove this item?"
                 dialog = AlertDialog.Builder(view.context)
                     .setMessage(message)
                     .setPositiveButton("Yes") { _, _ ->
@@ -50,7 +54,11 @@ class MoviesAdapter : RecyclerView.Adapter<MovieViewHolder>() {
                         val item = data[position]
                         data.removeAt(position)
                         notifyItemRemoved(position)
-                        dialog?.dismiss()
+                        // Remove item from database
+                        GlobalScope.launch {
+                            movieDao.removeMovie(item.id)
+                        }
+                        dialog?.dismiss() // Dismiss the dialog after the item has been removed
                     }
                     .setNegativeButton("No", null)
                     .create()
