@@ -55,7 +55,10 @@ class ListFragment : Fragment() {
             val averageRating = MovieDatabase.open(requireContext()).movies.averageRating()
             requireActivity().runOnUiThread {
                 binding.totalMovies.text = "$totalMovies"
-                binding.averageRating.text = "%.1f".format(averageRating)
+                if (averageRating != null)
+                    binding.averageRating.text = "%.1f".format(averageRating)
+                else
+                    binding.averageRating.text = "0"
             }
         }
 

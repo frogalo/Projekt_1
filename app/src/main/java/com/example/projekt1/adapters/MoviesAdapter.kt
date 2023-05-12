@@ -1,5 +1,6 @@
 package com.example.projekt1.adapters
 
+import android.app.AlertDialog
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
@@ -10,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.projekt1.databinding.ListItemBinding
 import com.example.projekt1.data.Movie
 import com.example.projekt1.MovieCallback
+import com.example.projekt1.data.MovieDao
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class MovieViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
     fun bind(movie: Movie) {
@@ -25,20 +29,41 @@ class MoviesAdapter : RecyclerView.Adapter<MovieViewHolder>() {
     private val handler: Handler = HandlerCompat.createAsync(Looper.getMainLooper())
     var onItemClick: (Int) -> Unit = {}
 
-    override
 
-    fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
         val binding = ListItemBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return MovieViewHolder(binding).also { vh ->
-            binding.btnEdit.setOnClickListener {
-                onItemClick(data[vh.layoutPosition].id)
-            }
+        val viewHolder = MovieViewHolder(binding)
+        binding.root.setOnLongClickListener { view ->
+            var dialog: AlertDialog? = null
+            handler.postDelayed({
+                // Show confirmation dialog
+                val message = "Do you want to remove this movie?"
+                dialog = AlertDialog.Builder(view.context)
+                    .setMessage(message)
+                    .setPositiveButton("Yes") { _, _ ->
+                        // Remove item from list and database
+                        val position = viewHolder.adapterPosition
+                        val item = data[position]
+                        data.removeAt(position)
+                        notifyItemRemoved(position)
+                        dialog?.dismiss()
+                    }
+                    .setNegativeButton("No", null)
+                    .create()
+                dialog?.show()
+            }, 2000)
+            true
         }
+        binding.btnEdit.setOnClickListener {
+            onItemClick(data[viewHolder.layoutPosition].id)
+        }
+        return viewHolder
     }
+
 
     override fun getItemCount(): Int = data.size
 
