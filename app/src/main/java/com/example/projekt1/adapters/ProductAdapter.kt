@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Handler
 import android.os.Looper
@@ -16,11 +17,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class ProductViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    @SuppressLint("SetTextI18n")
     fun bind(product: Product) {
         binding.name.text = product.name
         binding.description.text = product.description
-        binding.image.setImageResource(product.prodId)
-        binding.price.text = product.price.toString()
+//        binding.image.setImageResource(product.prodId)
+        binding.price.text = product.price.toString() + " PLN"
     }
 }
 
@@ -57,6 +59,7 @@ class ProductAdapter : RecyclerView.Adapter<ProductViewHolder>() {
             .setMessage(message)
             .setPositiveButton("Yes") { _, _ ->
                 removeItem(product)
+                refresh()
             }
             .setNegativeButton("No", null)
             .create()
@@ -72,6 +75,7 @@ class ProductAdapter : RecyclerView.Adapter<ProductViewHolder>() {
                 productDao.removeProduct(product.id)
             }
         }
+        refresh()
     }
 
     override fun getItemCount(): Int = data.size
@@ -99,10 +103,17 @@ class ProductAdapter : RecyclerView.Adapter<ProductViewHolder>() {
             result.dispatchUpdatesTo(this)
         }
     }
-
+    interface AdapterCallback {
+        fun onRefresh()
+    }
+    private var adapterCallback: AdapterCallback? = null
+    fun setAdapterCallback(callback: AdapterCallback) {
+        adapterCallback = callback
+    }
     fun refresh() {
         data.clear()
         notifyDataSetChanged()
+        adapterCallback?.onRefresh()
     }
 }
 

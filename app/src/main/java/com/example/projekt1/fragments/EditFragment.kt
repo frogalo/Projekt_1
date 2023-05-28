@@ -1,10 +1,20 @@
 package com.example.projekt1.fragments
 
+import android.content.ContentValues
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.MediaStore.Audio.Media
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.projekt1.adapters.ProductImageAdapter
@@ -18,14 +28,45 @@ const val ARG_EDIT_IT = "edit_id"
 
 class EditFragment : Fragment() {
 
+    private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
     private lateinit var binding: FragmentEditBinding
     private lateinit var adapter: ProductImageAdapter
     private lateinit var db: ProductDatabase
     private var product: ProductEntity? = null
+    private var imageUri: Uri? = null;
+
+    private val onTakePhoto = ActivityResultCallback<Boolean> { photography: Boolean ->
+        if (photography) {
+            binding.productPicture.setImageURI(imageUri)
+            //todo: save image to database
+        } else {
+            imageUri?.let { requireContext().contentResolver.delete(it, null, null) }
+        }
+    }
+
+
+    private fun createPicture() {
+        val imagesUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY)
+        } else {
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        }
+        val ct = ContentValues().apply {
+            put(MediaStore.Images.Media.DISPLAY_NAME, "photo.jpg")
+            put(MediaStore.Images.Media.MIME_TYPE, "images/jpeg")
+        }
+        imageUri = requireContext().contentResolver.insert(imagesUri, ct)
+        cameraLauncher.launch(imageUri)
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         db = ProductDatabase.open(requireContext())
-
+        cameraLauncher = registerForActivityResult(
+            ActivityResultContracts.TakePicture(),
+            onTakePhoto
+        )
     }
 
     override fun onCreateView(
@@ -50,7 +91,6 @@ class EditFragment : Fragment() {
                         binding.name.setText(product?.name ?: "")
                         binding.description.setText(product?.description ?: "")
                         binding.price.setText(product?.price.toString())
-
 
                         adapter.setSelection(product?.image?.let {
                             resources.getIdentifier(
@@ -94,6 +134,15 @@ class EditFragment : Fragment() {
             }
         }
 
+        binding.btnCamera.setOnClickListener {
+            createPicture()
+        }
 
+
+    }
+
+
+    companion object {
+        private const val REQUEST_IMAGE_CAPTURE = 1
     }
 }

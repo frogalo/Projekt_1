@@ -10,6 +10,8 @@
 
     <EditText
         android:id="@+id/name"
+        android:backgroundTint="#92140C"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -21,7 +23,9 @@
         app:layout_constraintStart_toEndOf="@+id/titleLabel"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <EditText
+        android:backgroundTint="#92140C"
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -42,6 +46,8 @@
         android:layout_width="70dp"
         android:layout_height="47dp"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#92140C"
+
         android:digits="0123456789."
         android:ems="10"
         android:inputType="numberDecimal"
@@ -84,7 +90,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="332dp"
-        android:text="Capture Photo"
+        android:text="@string/capture_photo"
+        android:backgroundTint="#92140C"
         app:layout_constraintBottom_toTopOf="@+id/btnSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -95,10 +102,23 @@
         android:id="@+id/btnSave"
         android:layout_width="190dp"
         android:layout_height="46dp"
+        android:backgroundTint="#92140C"
+
         android:layout_marginBottom="32dp"
         android:text="@string/saveBtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/productPicture"
+        android:layout_width="180dp"
+        android:layout_height="320dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnCamera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/price"
+        tools:src="@tools:sample/avatars" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
