@@ -1,9 +1,8 @@
-package com.example.projekt1.adapters
-
 import android.app.AlertDialog
 import android.os.Handler
 import android.os.Looper
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.HandlerCompat
 import androidx.recyclerview.widget.DiffUtil
@@ -11,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.projekt1.databinding.ListItemBinding
 import com.example.projekt1.data.Product
 import com.example.projekt1.ProductCallback
+import com.example.projekt1.data.ProductDao
 import com.example.projekt1.data.ProductDatabase
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,13 +22,12 @@ class ProductViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(
         binding.image.setImageResource(product.prodId)
         binding.price.text = product.price.toString()
     }
-    private val productDao = ProductDatabase.open(binding.root.context).products
-
 }
 
 class ProductAdapter : RecyclerView.Adapter<ProductViewHolder>() {
     private val data = mutableListOf<Product>()
     private val handler: Handler = HandlerCompat.createAsync(Looper.getMainLooper())
+    private lateinit var productDao: ProductDao
     var onItemClick: (Int) -> Unit = {}
 
 
@@ -38,31 +37,12 @@ class ProductAdapter : RecyclerView.Adapter<ProductViewHolder>() {
             parent,
             false
         )
-        var productDao = ProductDatabase.open(binding.root.context).products
+        productDao = ProductDatabase.open(binding.root.context).products
         val viewHolder = ProductViewHolder(binding)
         binding.root.setOnLongClickListener { view ->
-            var dialog: AlertDialog? = null
-            handler.postDelayed({
-                // Show confirmation dialog
-                val message = "Do you want to remove this item?"
-                dialog = AlertDialog.Builder(view.context)
-                    .setMessage(message)
-                    .setPositiveButton("Yes") { _, _ ->
-                        // Remove item from list and database
-                        val position = viewHolder.adapterPosition
-                        val item = data[position]
-                        data.removeAt(position)
-                        notifyItemRemoved(position)
-                        // Remove item from database
-                        GlobalScope.launch {
-                            productDao.removeProduct(item.id)
-                        }
-                        dialog?.dismiss() // Dismiss the dialog after the item has been removed
-                    }
-                    .setNegativeButton("No", null)
-                    .create()
-                dialog?.show()
-            }, 2000)
+            val position = viewHolder.adapterPosition
+            val item = data[position]
+            showConfirmationDialog(view, item)
             true
         }
         binding.btnEdit.setOnClickListener {
@@ -71,6 +51,28 @@ class ProductAdapter : RecyclerView.Adapter<ProductViewHolder>() {
         return viewHolder
     }
 
+    private fun showConfirmationDialog(view: View, product: Product) {
+        val message = "Do you want to remove this item?"
+        AlertDialog.Builder(view.context)
+            .setMessage(message)
+            .setPositiveButton("Yes") { _, _ ->
+                removeItem(product)
+            }
+            .setNegativeButton("No", null)
+            .create()
+            .show()
+    }
+
+    private fun removeItem(product: Product) {
+        val position = data.indexOf(product)
+        if (position != -1) {
+            data.removeAt(position)
+            notifyItemRemoved(position)
+            GlobalScope.launch {
+                productDao.removeProduct(product.id)
+            }
+        }
+    }
 
     override fun getItemCount(): Int = data.size
 
@@ -98,4 +100,10 @@ class ProductAdapter : RecyclerView.Adapter<ProductViewHolder>() {
         }
     }
 
+    fun refresh() {
+        data.clear()
+        notifyDataSetChanged()
+    }
 }
+
+

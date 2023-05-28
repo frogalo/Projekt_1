@@ -1,5 +1,6 @@
 package com.example.projekt1.fragments
 
+import ProductAdapter
 import android.annotation.SuppressLint
 import android.content.res.Configuration
 import android.os.Bundle
@@ -8,7 +9,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.projekt1.adapters.ProductAdapter
 import com.example.projekt1.Navigable
 import com.example.projekt1.R
 import com.example.projekt1.data.Product
@@ -23,6 +23,7 @@ class ListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
     private var adapter: ProductAdapter? = null
     private var isPolishLanguage: Boolean = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,6 +41,9 @@ class ListFragment : Fragment() {
             onItemClick = {
                 (activity as? Navigable)?.navigate(Navigable.Destination.Edit, it)
             }
+            binding.imageView.setOnClickListener {
+                swapLanguage()
+            }
         }
         loadData()
 
@@ -55,14 +59,15 @@ class ListFragment : Fragment() {
         }
 
         thread {
-            val totalProducts = ProductDatabase.open(requireContext()).products.count()
-            val totalSum = ProductDatabase.open(requireContext()).products.totalRating()
+            val productDao = ProductDatabase.open(requireContext()).products
+            val totalProducts = productDao.count()
+            val totalSum = productDao.totalPrice()
             requireActivity().runOnUiThread {
                 binding.totalProducts.text = "$totalProducts"
                 if (totalSum != null)
-                    binding.totalSum.text = "%.1f".format(totalSum)
+                    binding.totalSum.text = "%.1f".format(totalSum) + " PLN"
                 else
-                    binding.totalSum.text = "0"
+                    binding.totalSum.text = "0 PLN"
             }
         }
     }
@@ -83,6 +88,7 @@ class ListFragment : Fragment() {
         // Reload the activity to reflect the new language
         requireActivity().recreate()
     }
+
 
     private fun updateTranslations() {
         val context = requireContext()

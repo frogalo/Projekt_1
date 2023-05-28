@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.EditFragment"
-    android:background="#F1C40F">
+    android:background="#C1B4AE"
+    tools:context=".fragments.EditFragment">
 
 
     <EditText
@@ -42,9 +42,9 @@
         android:layout_width="70dp"
         android:layout_height="47dp"
         android:layout_marginTop="16dp"
+        android:digits="0123456789."
         android:ems="10"
         android:inputType="numberDecimal"
-        android:digits="0123456789."
         app:layout_constraintStart_toStartOf="@+id/description"
         app:layout_constraintTop_toBottomOf="@+id/description" />
 
@@ -53,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Opis"
+        android:text="@string/productDescription"
         app:layout_constraintBaseline_toBaselineOf="@+id/description"
         app:layout_constraintEnd_toStartOf="@+id/description"
         app:layout_constraintHorizontal_bias="0.5"
@@ -64,7 +64,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Tytuł"
+        android:text="@string/Name"
         app:layout_constraintBaseline_toBaselineOf="@+id/name"
         app:layout_constraintEnd_toStartOf="@+id/name"
         app:layout_constraintHorizontal_bias="0.5"
@@ -74,30 +74,29 @@
         android:id="@+id/ratingLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ocena"
+        android:text="@string/productPrice"
         app:layout_constraintBaseline_toBaselineOf="@+id/price"
         app:layout_constraintEnd_toEndOf="@+id/descriptionLabel" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/images"
-        android:layout_width="0dp"
-        android:layout_height="223dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
+
+    <Button
+        android:id="@+id/btnCamera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="332dp"
+        android:text="Capture Photo"
         app:layout_constraintBottom_toTopOf="@+id/btnSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/price"
-        app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/movie_image" />
+        app:layout_constraintTop_toBottomOf="@+id/price" />
+
 
     <Button
         android:id="@+id/btnSave"
         android:layout_width="190dp"
         android:layout_height="46dp"
         android:layout_marginBottom="32dp"
-        android:text="Save"
+        android:text="@string/saveBtn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

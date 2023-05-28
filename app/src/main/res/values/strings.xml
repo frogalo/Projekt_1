@@ -7,4 +7,9 @@
     <string name="add">Add</string>
     <string name="products">PRODUCTS</string>
     <string name="totalSum">TOTAL</string>
+    <string name="productPrice">Price</string>
+    <string name="saveBtn">Save</string>
+    <string name="Name">Product Name</string>
+    <string name="productDescription">Description</string>
+    <string name="itemPrice">price</string>
 </resources>

@@ -16,7 +16,7 @@ class ProductImageViewHolder(private val binding: MovieImageBinding) : RecyclerV
     }
 }
 
-class MovieImagesAdapter : RecyclerView.Adapter<ProductImageViewHolder>() {
+class ProductImageAdapter : RecyclerView.Adapter<ProductImageViewHolder>() {
     private val coverImages = listOf(
         R.drawable.flash_ver6,
         R.drawable.john_wick_chapter_four_ver2,

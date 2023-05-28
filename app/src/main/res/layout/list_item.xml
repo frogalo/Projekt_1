@@ -10,7 +10,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#353238">
 
         <ImageView
             android:id="@+id/image"
@@ -36,6 +37,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:text="@string/product_name"
+            android:textColor="#FFFFFF"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/description"
@@ -54,6 +56,7 @@
             android:ellipsize="end"
             android:maxLines="6"
             android:text="@string/product_description"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toTopOf="@+id/btnEdit"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/name"
@@ -67,7 +70,7 @@
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="8dp"
             android:text="@string/edit"
-            app:iconTint="#000000"
+            android:backgroundTint="#92140C"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/price"
             app:layout_constraintStart_toStartOf="@+id/description"
@@ -79,7 +82,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginBottom="2dp"
-            android:text="TextView"
+            android:text="@string/itemPrice"
+            android:textColor="#FFFFFF"
             app:layout_constraintBottom_toBottomOf="@+id/btnEdit"
             app:layout_constraintEnd_toEndOf="@+id/description"
             app:layout_constraintStart_toEndOf="@+id/btnEdit"

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.projekt1.adapters.MovieImagesAdapter
+import com.example.projekt1.adapters.ProductImageAdapter
 import com.example.projekt1.Navigable
 import com.example.projekt1.databinding.FragmentEditBinding
 import com.example.projekt1.data.ProductDatabase
@@ -19,7 +19,7 @@ const val ARG_EDIT_IT = "edit_id"
 class EditFragment : Fragment() {
 
     private lateinit var binding: FragmentEditBinding
-    private lateinit var adapter: MovieImagesAdapter
+    private lateinit var adapter: ProductImageAdapter
     private lateinit var db: ProductDatabase
     private var product: ProductEntity? = null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class EditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        adapter = MovieImagesAdapter()
+        adapter = ProductImageAdapter()
         if (arguments != null && requireArguments().containsKey(ARG_EDIT_IT)) {
             val id = requireArguments().getInt(ARG_EDIT_IT, -1)
 
@@ -64,12 +64,6 @@ class EditFragment : Fragment() {
             }
         }
 
-
-
-        binding.images.apply {
-            adapter = this@EditFragment.adapter
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        }
 
         binding.btnSave.setOnClickListener {
 

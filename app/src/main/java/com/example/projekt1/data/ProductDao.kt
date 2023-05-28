@@ -32,9 +32,9 @@ interface ProductDao {
     fun count(): Int
 
     @Query("SELECT AVG(price) FROM product")
-    fun averageRating(): Double?
+    fun averagePrice(): Double?
 
     @Query("SELECT SUM(price) FROM product")
-    fun totalRating(): Double?
+    fun totalPrice(): Double?
 
 }
