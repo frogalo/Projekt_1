@@ -1,9 +1,9 @@
 package com.example.projekt1
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.projekt1.data.Movie
+import com.example.projekt1.data.Product
 
-class MovieCallback(val notSorted: List<Movie>, val sorted: List<Movie>) : DiffUtil.Callback() {
+class ProductCallback(val notSorted: List<Product>, val sorted: List<Product>) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = notSorted.size
 
     override fun getNewListSize(): Int = sorted.size

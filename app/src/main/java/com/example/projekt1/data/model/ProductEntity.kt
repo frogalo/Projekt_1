@@ -3,12 +3,12 @@ package com.example.projekt1.data.model
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "movie")
-data class MovieEntity(
+@Entity(tableName = "product")
+data class ProductEntity(
     @PrimaryKey(autoGenerate = true)
-    val movId: Int = 0,
-    val title: String,
+    val prodId: Int = 0,
+    val name: String,
     val description: String,
-    val rating: Double,
-    val cover: String
+    val price: Double,
+    val image: String
 )

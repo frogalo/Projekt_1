@@ -9,7 +9,7 @@
 
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -35,10 +35,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/descriptionLabel"
-        app:layout_constraintTop_toBottomOf="@+id/title" />
+        app:layout_constraintTop_toBottomOf="@+id/name" />
 
     <EditText
-        android:id="@+id/rating"
+        android:id="@+id/price"
         android:layout_width="70dp"
         android:layout_height="47dp"
         android:layout_marginTop="16dp"
@@ -65,8 +65,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Tytuł"
-        app:layout_constraintBaseline_toBaselineOf="@+id/title"
-        app:layout_constraintEnd_toStartOf="@+id/title"
+        app:layout_constraintBaseline_toBaselineOf="@+id/name"
+        app:layout_constraintEnd_toStartOf="@+id/name"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -75,7 +75,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Ocena"
-        app:layout_constraintBaseline_toBaselineOf="@+id/rating"
+        app:layout_constraintBaseline_toBaselineOf="@+id/price"
         app:layout_constraintEnd_toEndOf="@+id/descriptionLabel" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -88,7 +88,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnSave"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rating"
+        app:layout_constraintTop_toBottomOf="@+id/price"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/movie_image" />
 

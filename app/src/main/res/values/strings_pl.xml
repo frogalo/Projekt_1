@@ -1,0 +1,9 @@
+<resources>
+    <string name="movie_title_pl">Tytuł filmu</string>
+    <string name="movie_description_pl">Opis filmu</string>
+    <string name="edit_pl">Edytuj</string>
+    <string name="rating_pl">Ocena</string>
+    <string name="add_pl">Dodaj</string>
+    <string name="movies_pl">FILMY</string>
+    <string name="average_rating_pl">ŚREDNIA OCENA</string>
+</resources>

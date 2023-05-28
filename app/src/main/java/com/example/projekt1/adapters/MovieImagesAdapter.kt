@@ -1,21 +1,22 @@
-package com.example.projekt1
+package com.example.projekt1.adapters
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.projekt1.R
 import com.example.projekt1.databinding.MovieImageBinding
 
-class MovieImageViewHolder(val binding: MovieImageBinding) : RecyclerView.ViewHolder(binding.root) {
+class ProductImageViewHolder(private val binding: MovieImageBinding) : RecyclerView.ViewHolder(binding.root) {
 
 
     fun bind(movId: Int, isSelected: Boolean) {
-        binding.coverImage.setImageResource(movId)
+        binding.image.setImageResource(movId)
         binding.selectedImage.visibility = if (isSelected) View.VISIBLE else View.INVISIBLE
     }
 }
 
-class MovieImagesAdapter : RecyclerView.Adapter<MovieImageViewHolder>() {
+class MovieImagesAdapter : RecyclerView.Adapter<ProductImageViewHolder>() {
     private val coverImages = listOf(
         R.drawable.flash_ver6,
         R.drawable.john_wick_chapter_four_ver2,
@@ -28,13 +29,13 @@ class MovieImagesAdapter : RecyclerView.Adapter<MovieImageViewHolder>() {
         get() = coverImages[selectedPosition]
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieImageViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductImageViewHolder {
         val binding = MovieImageBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-        return MovieImageViewHolder(binding).also { vh ->
+        return ProductImageViewHolder(binding).also { vh ->
             binding.root.setOnClickListener {
                 setSelected(vh.layoutPosition)
             }
@@ -47,7 +48,7 @@ class MovieImagesAdapter : RecyclerView.Adapter<MovieImageViewHolder>() {
         notifyItemChanged(selectedPosition)
     }
 
-    override fun onBindViewHolder(holder: MovieImageViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ProductImageViewHolder, position: Int) {
         holder.bind(coverImages[position], position == selectedPosition)
     }
 

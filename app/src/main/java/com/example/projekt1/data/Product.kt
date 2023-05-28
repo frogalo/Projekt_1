@@ -2,11 +2,11 @@ package com.example.projekt1.data
 
 import androidx.annotation.DrawableRes
 
-data class Movie(
+data class Product(
     val id: Int,
-    val title: String,
+    val name: String,
     val description: String,
     @DrawableRes
-    val movId: Int,
-    val rating: Double
+    val prodId: Int,
+    val price: Double
 )
