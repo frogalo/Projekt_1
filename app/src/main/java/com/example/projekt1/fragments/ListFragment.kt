@@ -3,6 +3,7 @@ package com.example.projekt1.fragments
 import ProductAdapter
 import android.annotation.SuppressLint
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -104,15 +105,12 @@ class ListFragment : Fragment() {
             val products =
                 ProductDatabase.open(requireContext()).products.getAllSortedByRating()
                     .map { entity ->
+                        val imageUri = Uri.parse(entity.image) // Parse the image URI from the stored string
                         Product(
                             entity.prodId,
                             entity.name,
                             entity.description,
-                            resources.getIdentifier(
-                                entity.image,
-                                "drawable",
-                                requireContext().packageName
-                            ),
+                            imageUri,
                             entity.price
                         )
                     }

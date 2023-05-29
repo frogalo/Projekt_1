@@ -21,7 +21,7 @@ class ProductViewHolder(val binding: ListItemBinding) : RecyclerView.ViewHolder(
     fun bind(product: Product) {
         binding.name.text = product.name
         binding.description.text = product.description
-//        binding.image.setImageResource(product.prodId)
+        binding.image.setImageURI(product.image)
         binding.price.text = product.price.toString() + " PLN"
     }
 }

@@ -110,7 +110,8 @@ class EditFragment : Fragment() {
             val name = binding.name.text.toString()
             val description = binding.description.text.toString()
             val price = binding.price.text.toString().toDoubleOrNull() ?: 0.0
-            val image = resources.getResourceEntryName(adapter.selectedIdMov)
+            val image = imageUri.toString() // Save the image URI as a string
+
             val product = product?.copy(
                 name = name,
                 description = description,
