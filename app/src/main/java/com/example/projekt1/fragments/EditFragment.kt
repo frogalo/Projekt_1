@@ -2,6 +2,7 @@ package com.example.projekt1.fragments
 
 import android.content.ContentValues
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -22,6 +23,8 @@ import com.example.projekt1.Navigable
 import com.example.projekt1.databinding.FragmentEditBinding
 import com.example.projekt1.data.ProductDatabase
 import com.example.projekt1.data.model.ProductEntity
+import org.osmdroid.config.Configuration
+import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import kotlin.concurrent.thread
 
 const val ARG_EDIT_IT = "edit_id"
@@ -67,6 +70,9 @@ class EditFragment : Fragment() {
             ActivityResultContracts.TakePicture(),
             onTakePhoto
         )
+        if(checkSelfPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+            //todo https://pejot.sharepoint.com/sites/2223L_wis_PRM_11/Class%20Materials/Forms/AllItems.aspx?ga=1&id=%2Fsites%2F2223L_wis_PRM_11%2FClass%20Materials%2FPRM11%2FOsmodroid%2Emp4&parent=%2Fsites%2F2223L_wis_PRM_11%2FClass%20Materials%2FPRM11
+            //todo 15:40
     }
 
     override fun onCreateView(
@@ -102,6 +108,13 @@ class EditFragment : Fragment() {
                     }
                 }
             }
+        }
+
+
+        Configuration.getInstance().userAgentValue = activity?.packageName
+        binding.map.apply {
+            setTileSource(TileSourceFactory.MAPNIK)
+
         }
 
 

@@ -115,10 +115,24 @@
         android:id="@+id/productPicture"
         android:layout_width="180dp"
         android:layout_height="320dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/btnCamera"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.765"
         app:layout_constraintTop_toBottomOf="@+id/price"
+        app:layout_constraintVertical_bias="0.48"
         tools:src="@tools:sample/avatars" />
+
+    <org.osmdroid.views.MapView
+        android:id="@+id/map"
+        android:layout_width="180dp"
+        android:layout_height="320dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/productPicture"
+        app:layout_constraintEnd_toStartOf="@+id/productPicture"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/productPicture"
+        app:layout_constraintVertical_bias="0.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
