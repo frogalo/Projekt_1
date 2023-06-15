@@ -1,9 +1,10 @@
 package com.example.projekt1
 
+
+import EditFragment
+import ARG_EDIT_IT
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.projekt1.fragments.ARG_EDIT_IT
-import com.example.projekt1.fragments.EditFragment
 import com.example.projekt1.fragments.ListFragment
 
 class MainActivity : AppCompatActivity(), Navigable {
