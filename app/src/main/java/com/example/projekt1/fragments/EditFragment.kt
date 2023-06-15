@@ -28,6 +28,7 @@ import com.example.projekt1.data.ProductDatabase
 import com.example.projekt1.data.model.ProductEntity
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
+import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay
 import kotlin.concurrent.thread
@@ -116,11 +117,12 @@ class EditFragment : Fragment() {
                 requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
             val location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             if (location != null) {
-                // Use the retrieved location for your desired purpose
-                // For example, you can access the latitude and longitude:
                 val latitude = location.latitude
                 val longitude = location.longitude
-                // Do something with the latitude and longitude values
+                val userLocation = GeoPoint(latitude, longitude)
+                controller.setZoom(19)
+                controller.animateTo(userLocation)
+
             }
         }
     }
